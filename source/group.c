@@ -90,7 +90,7 @@ void Group_Destroy(Group *g, void (*ContentDestroy_fn)(void *))
     {
         Node *to_remove_node = iterator;
         iterator = iterator->next;
-        ContentDestroy_fn(Node_Destroy(to_remove_node));
+        if(ContentDestroy_fn != NULL) ContentDestroy_fn(Node_Destroy(to_remove_node));
     }
     free(g);
 }
