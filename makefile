@@ -1,10 +1,11 @@
 all: object compile
 
 object:
-	gcc -c main.c source/*.c headers/*.h && mv *.o objects/
+	mkdir -p objects
+	gcc -c main.c source/*.c -Iheaders && mv *.o objects/
 
 compile:
-	gcc -o exec objects/*.o
+	gcc -o exec objects/*.o -lm
 
 run:
 	./exec in-exemplos/1.txt 3 saida.txt
