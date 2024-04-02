@@ -1,19 +1,16 @@
 #ifndef _VERTEX_H_
 #define _VERTEX_H_
 
+typedef struct vertex Vertex;
 
+///Vertex *Vertex_Create(char *vertex_name,int dimension, ...);
 
-typedef struct vertex VertexND;
+Vertex *Vertex_Create(char *vertex_name, int dimension,double *coordinates);
 
+void vertexSetCoordinate(Vertex *v, int coordinateSlot, double value);
 
-///VertexND *VertexND_Create(char *vertex_name,int dimension, ...);
+void Vertex_Destroy(Vertex *v);
 
-VertexND *Vertex_Create(char *vertex_name, int dimension);
-
-void vertexSetCoordinate(VertexND *v, int coordinateSlot, double value);
-
-void VertexND_Destroy(VertexND *v);
-
-void debug_vertex(VertexND *v);
+void debug_vertex(Vertex *v);
 
 #endif

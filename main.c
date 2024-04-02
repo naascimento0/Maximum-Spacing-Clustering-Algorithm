@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "headers/util.h"
+#include "headers/vertex.h"
 
 int main(int argc, char **argv){
 	char* input_file_path = argv[1];
