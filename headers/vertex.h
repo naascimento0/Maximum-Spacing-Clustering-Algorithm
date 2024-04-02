@@ -1,17 +1,24 @@
 #ifndef _VERTEX_H_
 #define _VERTEX_H_
+#include <stdio.h>
 
 typedef struct vertex Vertex;
 
 
 ///Vertex *Vertex_Create(char *vertex_name,int dimension, ...);
 
-Vertex *Vertex_Create(char *vertex_name, int dimension, double *coordinates);
+Vertex* vertex_create(char *vertex_name, int dimension, double *coordinates);
 
-void vertexSetCoordinate(Vertex *v, int coordinateSlot, double value);
+Vertex** load_vertices(FILE *input);
 
-void Vertex_Destroy(Vertex *v);
+double vertex_calculate_distance(Vertex *v_a, Vertex *v_b);
 
 void debug_vertex(Vertex *v);
+
+void vertices_destroy(Vertex **v);
+void vertex_destroy(Vertex *v);
+
+
+
 
 #endif
