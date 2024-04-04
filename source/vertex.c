@@ -1,4 +1,4 @@
-#include "vertex.h"
+#include "../headers/vertex.h"
 
 struct vertex{
     char *name;

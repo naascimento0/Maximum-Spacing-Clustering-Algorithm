@@ -1,4 +1,4 @@
-#include "edge.h"
+#include "../headers/edge.h"
 
 struct edge {
     double weight;

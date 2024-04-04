@@ -1,4 +1,4 @@
-#include "graph.h"
+#include "../headers/graph.h"
 
 struct graph {
     Vertex **vertices;
