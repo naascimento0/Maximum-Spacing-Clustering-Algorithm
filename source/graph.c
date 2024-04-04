@@ -7,28 +7,25 @@ struct graph {
     int qnt_edges;
 };
 
-Graph *graph_create(FILE *input) {
-    Graph *g = (Graph *)malloc(sizeof(Graph));
-    g->vertices = vertex_load(input, (&g->qnt_vertices));
-    qsort(g->vertices, g->qnt_vertices, sizeof(Vertex *), vertex_sort);
-    g->qnt_edges = (((g->qnt_vertices * g->qnt_vertices) - g->qnt_vertices) / 2);
-    g->edges = (Edge **)malloc(sizeof(Edge *) * g->qnt_edges);
+Graph* graph_create(FILE *input) {
+    Graph *g = malloc(sizeof(Graph));
+
+    g->vertices = vertices_load(input, (&g->qnt_vertices)); 
+    qsort(g->vertices, g->qnt_vertices, sizeof(Vertex*), vertex_sort_by_name);
+
+    g->qnt_edges = ((g->qnt_vertices * g->qnt_vertices - g->qnt_vertices) / 2);
+    g->edges = malloc(sizeof(Edge *) * g->qnt_edges);
 
     int current_edge = 0;
-
-    for (int i = 0; i < g->qnt_vertices; i++)
-    {
-        for (int j = i + 1; j < g->qnt_vertices; j++)
-        {   
-            g->edges[current_edge] = edge_create(g->vertices[i], g->vertices[j], vertex_calculate_distance(g->vertices[i], g->vertices[j]));
-            current_edge++;
-        }
+    for(int i = 0; i < g->qnt_vertices; i++){
+        for(int j = i + 1; j < g->qnt_vertices; j++)
+            g->edges[current_edge++] = edge_create(g->vertices[i], g->vertices[j], vertex_calculate_distance(g->vertices[i], g->vertices[j]));
     }
+
     //printf("Edges: %d\n", current_edge);
     qsort(g->edges, g->qnt_edges, sizeof(Edge *), edge_compare);
 
-    for (int i = 0; i < g->qnt_edges; i++)
-    {
+    for(int i = 0; i < g->qnt_edges; i++){
         //printf("Edge %d\n", i);
         //edge_debug(g->edges[i]);
     }
@@ -37,39 +34,34 @@ Graph *graph_create(FILE *input) {
 }
 
 void graph_destroy(Graph *g) {
-    for (int i = 0; i < g->qnt_vertices; i++)
-    {
+    for(int i = 0; i < g->qnt_vertices; i++)
         vertex_destroy(g->vertices[i]);
-    }
-    for (int i = 0; i < g->qnt_edges; i++)
-    {
+    
+    for(int i = 0; i < g->qnt_edges; i++)
         edge_destroy(g->edges[i]);
-    }
+    
     free(g->vertices);
     free(g->edges);
     free(g);
 }
 
 void graph_msca(Graph *g, int K, char *output_file_path){
-    int *parent = (int *)malloc(sizeof(int) * g->qnt_vertices);
-    int *sz = (int *)malloc(sizeof(int) * g->qnt_vertices);
+    int *parent = malloc(sizeof(int) * g->qnt_vertices);
+    int *sz = malloc(sizeof(int) * g->qnt_vertices);
 
-    for (int i = 0; i < g->qnt_vertices; i++)
-    {
+    for(int i = 0; i < g->qnt_vertices; i++){
         sz[i] = 1;
         parent[i] = i;
     }
     
     int max_edges = g->qnt_vertices - K;
-
     int index_src, index_dest;
-    for (int i = 0; i < max_edges; i++)
-    {
+    for (int i = 0; i < max_edges; i++){
         Vertex *src = edge_src(g->edges[i]);
         Vertex *dest = edge_dest(g->edges[i]);
         
-        Vertex **p = (Vertex **)bsearch(&src, g->vertices, g->qnt_vertices, sizeof(Vertex *), vertex_sort);
-        Vertex **q = (Vertex **)bsearch(&dest, g->vertices, g->qnt_vertices, sizeof(Vertex *), vertex_sort);
+        Vertex **p = bsearch(&src, g->vertices, g->qnt_vertices, sizeof(Vertex*), vertex_sort_by_name);
+        Vertex **q = bsearch(&dest, g->vertices, g->qnt_vertices, sizeof(Vertex*), vertex_sort_by_name);
         if (p != NULL && q != NULL) {
             index_src = p - g->vertices;
             index_dest = q - g->vertices;
@@ -78,10 +70,8 @@ void graph_msca(Graph *g, int K, char *output_file_path){
     }
 
     for (int i = 0; i < g->qnt_vertices; i++)
-    {
         printf("name: %s parent:%d\n", vertex_get_name(g->vertices[i]), parent[i]);
-    }
-
+    
 
     // output incompleto
     FILE *output = fopen(output_file_path, "w+");

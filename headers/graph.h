@@ -13,4 +13,4 @@ void graph_msca(Graph *g, int K, char *output_file_path);
 int _union(int p, int q, int *parent, int *sz);
 int _find(int i, int *parent);
 
-#endif // GRAPH
+#endif 

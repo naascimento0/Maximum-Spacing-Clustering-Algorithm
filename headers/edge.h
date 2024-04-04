@@ -13,4 +13,4 @@ int edge_compare(const void *a, const void *b);
 void edge_debug(Edge *v);
 void edge_destroy(Edge *e);
 
-#endif // EDGE
+#endif 
