@@ -12,3 +12,4 @@ objects/util.o
 objects/vertex.o
 trab1
 output.txt
+.vscode/
