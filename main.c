@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "headers/util.h"
-#include "headers/vertex.h"
+#include "headers/graph.h"
 
 int main(int argc, char **argv){
 	char* input_file_path = argv[1];
@@ -13,10 +12,11 @@ int main(int argc, char **argv){
 	if(!input)
 		exit(printf("ERROR: File %s did not open", input_file_path));
 
-	Vertex **vertices = load_vertices(input);
+	Graph *graph = graph_create(input);
+	graph_msca(graph, k, output_file_path);
+	graph_destroy(graph);
 
 	fclose(input);
-	vertices_destroy(vertices);
 
 	return 0;
 }

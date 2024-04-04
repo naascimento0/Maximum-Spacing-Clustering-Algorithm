@@ -5,14 +5,14 @@ object:
 	gcc -c main.c source/*.c -Iheaders && mv *.o objects/
 
 compile:
-	gcc -o exec objects/*.o -lm
+	gcc -o trab1 objects/*.o -lm
 
 run:
-	./exec in-exemplos/1.txt 3 saida.txt
+	./trab1 in-exemplos/1.txt 3 saida.txt
 
 valgrind:
-	valgrind ./exec in-exemplos/1.txt 3 saida.txt
+	valgrind ./trab1 in-exemplos/1.txt 3 saida.txt
 
 clean:
-	rm exec objects/* 
+	rm trab1 objects/* 
 

@@ -1,0 +1,14 @@
+in-exemplos/0.txt
+in-exemplos/1.txt
+in-exemplos/2.txt
+in-exemplos/4.txt
+in-exemplos/3.txt
+in-exemplos/5.txt
+in-exemplos/about.txt
+objects/edge.o
+objects/graph.o
+objects/main.o
+objects/util.o
+objects/vertex.o
+trab1
+output.txt
