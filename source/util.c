@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "../headers/util.h"
 #include "../headers/vertex.h"
 
@@ -25,4 +22,14 @@ int line_file_counter(FILE *file){
             break;
     }
     return counter;
+}
+
+int dimension_counter(FILE *file){
+    size_t size = 0;          
+	char *line = NULL;
+	ssize_t line_size = getline(&line,&size, file);
+	int dimension = 0;
+	for(int i = 0; i < line_size; i++)
+		if(line[i] == ',')
+			dimension++;
 }
