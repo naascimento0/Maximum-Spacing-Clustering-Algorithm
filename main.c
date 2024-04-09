@@ -3,6 +3,7 @@
 #include <string.h>
 #include "headers/graph.h"
 
+// K verification needed
 int main(int argc, char **argv){
 	char* input_file_path = argv[1];
 	int k = atoi(argv[2]);

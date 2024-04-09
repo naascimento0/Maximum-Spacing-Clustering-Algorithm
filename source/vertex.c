@@ -1,21 +1,21 @@
 #include "../headers/vertex.h"
 
 struct vertex{
-    char *name;
-    int dimension;
+    char *id;
+    int dimension;		//TO DO: remove
     double *coordinates;
 };
 
-Vertex* vertex_create(char *vertex_name, int dimension, double *coordinates){
+Vertex* vertex_create(char *vertex_id, int dimension, double *coordinates){
     Vertex *new_vertex = calloc(1,sizeof(Vertex));
     new_vertex->coordinates = coordinates;
     new_vertex->dimension = dimension;
-    new_vertex->name = vertex_name;
+    new_vertex->id = vertex_id;
     return new_vertex;    
 }
 
-char *vertex_get_name(Vertex *v){
-    return v->name;
+char *vertex_get_id(Vertex *v){
+    return v->id;
 }
 
 //--------------LOAD USING LINE COUNTER-----------
@@ -40,7 +40,7 @@ char *vertex_get_name(Vertex *v){
 // 	while((getline(&line, &size, input)) != -1){
 // 		double *coordinates = malloc(dimension * sizeof(double));
 // 		char *token = strtok(line, ",");
-// 		char *name = strdup(token);
+// 		char *id = strdup(token);
 
 // 		token = strtok(NULL, ",");
 // 		for(int i = 0; i < dimension && token != NULL; i++){
@@ -49,7 +49,7 @@ char *vertex_get_name(Vertex *v){
 // 			token = strtok(NULL, ",");
 // 		}
 // 		//printf("\n");
-// 		vertices[k++] = vertex_create(name, dimension, coordinates);
+// 		vertices[k++] = vertex_create(id, dimension, coordinates);
 // 	}
 
 // 	free(line);
@@ -78,7 +78,7 @@ Vertex** vertices_load(FILE *input, int *amount){
 	while((getline(&line, &size, input)) != -1){
 		double *coordinates = malloc(dimension * sizeof(double));
 		char *token = strtok(line, ",");
-		char *name = strdup(token);
+		char *id = strdup(token);
 
 		token = strtok(NULL, ",");
 		for(int i = 0; i < dimension && token != NULL; i++){  // loop to get only coordinates
@@ -91,7 +91,7 @@ Vertex** vertices_load(FILE *input, int *amount){
 			vertices_size *= 2;
 			Vertex **vertices = realloc(vertices, sizeof(Vertex) * vertices_size);
 		}
-		vertices[k++] = vertex_create(name, dimension, coordinates);
+		vertices[k++] = vertex_create(id, dimension, coordinates);
 	}
 
 	(*amount) = 50;
@@ -109,26 +109,20 @@ double vertex_calculate_distance(Vertex *v_a, Vertex *v_b){
     return sqrt(sum);
 }
 
-int vertex_sort_by_name(const void *a, const void *b){
+int vertex_sort_by_id(const void *a, const void *b){
     const Vertex **aa = (const Vertex**)a;
     const Vertex **bb = (const Vertex**)b;
-    return strcmp((*aa)->name, (*bb)->name);
-}
-
-int vertex_search(const void *a, const void *b){
-    const Vertex *aa = (const Vertex*)a;
-    const Vertex **bb = (const Vertex**)b;
-    return strcmp(aa->name, (*bb)->name);
+    return strcmp((*aa)->id, (*bb)->id);
 }
 
 void vertex_debug(Vertex *v){
-    printf("NAME: %s | COORDINATES: ", v->name);
+    printf("id: %s | COORDINATES: ", v->id);
     for (int i = 0; i < v->dimension; i++) printf("%lf ", v->coordinates[i]);
     printf("\n");
 }
 
 void vertex_destroy(Vertex *v){
-    free(v->name);
+    free(v->id);
     free(v->coordinates);
     free(v);
 }
