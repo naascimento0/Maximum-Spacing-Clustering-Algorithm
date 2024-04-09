@@ -1,5 +1,5 @@
-#if !defined(GRAPH)
-#define GRAPH
+#ifndef GRAPH_H
+#define GRAPH_H
 
 #include "vertex.h"
 #include "edge.h"

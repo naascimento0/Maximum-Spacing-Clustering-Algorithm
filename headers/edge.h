@@ -1,5 +1,5 @@
-#if !defined(EDGE)
-#define EDGE
+#ifndef EDGE_H_
+#define EDGE_H_
 
 #include "vertex.h"
 

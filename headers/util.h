@@ -10,6 +10,4 @@ int line_file_counter(FILE *file);
 
 int dimension_counter(FILE *file);
 
-
-
 #endif

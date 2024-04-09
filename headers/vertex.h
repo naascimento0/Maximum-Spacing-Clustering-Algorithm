@@ -26,7 +26,4 @@ void vertex_debug(Vertex *v, int dimension);
 
 void vertex_destroy(Vertex *v);
 
-
-
-
 #endif
