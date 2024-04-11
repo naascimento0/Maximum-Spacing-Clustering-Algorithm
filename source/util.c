@@ -33,5 +33,6 @@ int dimension_counter(FILE *file){
 		if(line[i] == ',')
 			dimension++;
 
+    free(line);
     return dimension;
 }

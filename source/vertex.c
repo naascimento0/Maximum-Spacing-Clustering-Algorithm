@@ -33,19 +33,18 @@ Vertex** vertices_load(FILE *input, int *amount){
 
 		token = strtok(NULL, ",");
 		for(int i = 0; i < dimension && token != NULL; i++){  // loop to get only coordinates
-		    //printf("%s\n", token);
 			coordinates[i] = atof(token);
 			token = strtok(NULL, ",");
 		}
-		//printf("\n");
+
 		if(k >= max_size){		// Vertex** realloc
 			max_size *= 2;
-			Vertex **vertices = realloc(vertices, sizeof(Vertex) * max_size);
+			vertices = realloc(vertices, sizeof(Vertex) * max_size);
 		}
 		vertices[k++] = vertex_create(id, coordinates);
 	}
 
-	(*amount) = 50;
+	(*amount) = k;
 	free(line);
 	return vertices;
 }

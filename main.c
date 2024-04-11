@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>	
 #include "headers/graph.h"
 
 // K verification needed
@@ -13,11 +14,16 @@ int main(int argc, char **argv){
 	if(!input)
 		exit(printf("ERROR: File %s did not open", input_file_path));
 
+	clock_t start = clock ();
 	Graph *graph = graph_create(input);
 	graph_msca(graph, k, output_file_path);
+	clock_t end = clock ();
 	graph_destroy(graph);
 
 	fclose(input);
+
+	double seconds = ((double) end - start) / CLOCKS_PER_SEC;
+    printf ("\n tempo gasto: %lf \n ", seconds);
 
 	return 0;
 }

@@ -70,6 +70,8 @@ void graph_msca(Graph *g, int K, char *output_file_path){
         }
     }
 
+    graph_msca_output(g, K, output_file_path, parent);
+
     free(parent);
     free(sz);
 }
@@ -99,7 +101,6 @@ void graph_msca_output(Graph *g, int K, char *output_file_path, int *parent){
 
         aux = vertex_get_id(g->vertices[parent[x]]);
         x++;
-        printf("\n");
     }
 
     fclose(output);
