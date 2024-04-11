@@ -87,7 +87,7 @@ void graph_msca_output(Graph *g, int K, char *output_file_path, int *parent){
     int x = 0;
     int y = 1;
 
-    for (int i = 1; i < K; i++)
+    for (int i = 0; i < K; i++)
     {
         for (int j = 0; j < g->vertices_qtt; j++){
             if (strcmp(aux, vertex_get_id(g->vertices[parent[j]])) == 0)
@@ -97,7 +97,7 @@ void graph_msca_output(Graph *g, int K, char *output_file_path, int *parent){
         }
 
         for (int j = 0; j < g->vertices_qtt; j++){
-            if (strcmp(aux, vertex_get_id(g->vertices[j])) != 0)
+            if (strcmp(aux, vertex_get_id(g->vertices[parent[j]])) != 0)
             {
                 for (int t = 0; t < x; t++)
                 {
@@ -113,10 +113,11 @@ void graph_msca_output(Graph *g, int K, char *output_file_path, int *parent){
                     printf("%d\n", x);
                     writed[x] = strdup(aux);
                     x++;
-                    aux = vertex_get_id(g->vertices[j]);
+                    aux = vertex_get_id(g->vertices[parent[j]]);
                 }
             }
         }
+    fprintf(output, "\n");
     }
 
     fclose(output);
