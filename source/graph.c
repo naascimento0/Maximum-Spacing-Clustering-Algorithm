@@ -83,7 +83,9 @@ void graph_msca_output(Graph *g, int K, char *output_file_path, int *parent){
         exit(printf("ERROR: File %s did not open", output_file_path));
     
     char *aux = vertex_get_id(g->vertices[parent[0]]);
+    char **writed = malloc(sizeof(char *) * K);
     int x = 0;
+    int y = 1;
 
     for (int i = 1; i < K; i++)
     {
@@ -94,13 +96,27 @@ void graph_msca_output(Graph *g, int K, char *output_file_path, int *parent){
             }
         }
 
-        while (strcmp(aux, vertex_get_id(g->vertices[x])) == 0)
-        {
-            x++;
-        }
+        for (int j = 0; j < g->vertices_qtt; j++){
+            if (strcmp(aux, vertex_get_id(g->vertices[j])) != 0)
+            {
+                for (int t = 0; t < x; t++)
+                {
+                    if (strcmp(writed[t], vertex_get_id(g->vertices[j])) == 0)
+                    {
+                        y = 0;
+                        break;
+                    }
+                }
 
-        aux = vertex_get_id(g->vertices[parent[x]]);
-        x++;
+                if (y)
+                {
+                    printf("%d\n", x);
+                    writed[x] = strdup(aux);
+                    x++;
+                    aux = vertex_get_id(g->vertices[j]);
+                }
+            }
+        }
     }
 
     fclose(output);

@@ -2,7 +2,7 @@ all: object compile
 
 object:
 	mkdir -p objects
-	gcc -c main.c source/*.c -Iheaders && mv *.o objects/
+	gcc -g -c main.c source/*.c -Iheaders && mv *.o objects/
 
 compile:
 	gcc -o trab1 objects/*.o -lm
