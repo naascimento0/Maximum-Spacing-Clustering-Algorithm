@@ -110,16 +110,23 @@ void graph_msca_output(Graph *g, int K, char *output_file_path, int *parent){
 
                 if (y)
                 {
-                    printf("%d\n", x);
                     writed[x] = strdup(aux);
                     x++;
                     aux = vertex_get_id(g->vertices[parent[j]]);
+                    break;
                 }
+
+                y = 1;
             }
         }
     fprintf(output, "\n");
     }
 
+    for (int i = 0; i < K; i++)
+    {
+        free(writed[i]);
+    }
+    free(writed);
     fclose(output);
 }
 
