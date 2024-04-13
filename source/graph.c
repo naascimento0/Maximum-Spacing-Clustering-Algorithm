@@ -1,6 +1,6 @@
 #include "../headers/graph.h"
 
-struct graph {
+struct graph{
     Vertex **vertices;
     int vertices_qtt;
     int dimension;
@@ -46,14 +46,7 @@ void graph_destroy(Graph *g) {
 
 //maximum spacing clustering algorithm
 void graph_msca(Graph *g, int K, char *output_file_path){
-    int *parent = malloc(sizeof(int) * g->vertices_qtt);    // union-find indexes array
-    int *sz = malloc(sizeof(int) * g->vertices_qtt);        // size of each tree
-
-    for(int i = 0; i < g->vertices_qtt; i++){
-        sz[i] = 1;      // tree size initially is 1
-        parent[i] = i;  // each vertex is their own parent
-    }
-    
+    DisjointSet *ds = create_disjoint_set(g->vertices_qtt);
     // Kruskal modified to generate a MSCA
     int max_edges = g->vertices_qtt - K;
     int index_src, index_dest;
@@ -66,88 +59,64 @@ void graph_msca(Graph *g, int K, char *output_file_path){
         if(p != NULL && q != NULL){     // TO DO: uma olhada
             index_src = p - g->vertices;    // pointer arithmetic
             index_dest = q - g->vertices;   // pointer arithmetic
-            max_edges += _union(index_src, index_dest, parent, sz);
+            max_edges += _union(ds, index_src, index_dest);
         }
     }
 
-    graph_msca_output(g, K, output_file_path, parent);
-
-    free(parent);
-    free(sz);
+    //graph_msca_output(g, K, output_file_path, ds);
+    destroy_disjoint_set(ds);
 }
 
-void graph_msca_output(Graph *g, int K, char *output_file_path, int *parent){
-    // output incompleto
-    FILE *output = fopen(output_file_path, "w+");
-    if(!output)
-        exit(printf("ERROR: File %s did not open", output_file_path));
+// void graph_msca_output(Graph *g, int K, char *output_file_path, DisjointSet *ds){
+//     // output incompleto
+//     FILE *output = fopen(output_file_path, "w+");
+//     if(!output)
+//         exit(printf("ERROR: File %s did not open", output_file_path));
     
-    char *aux = vertex_get_id(g->vertices[parent[0]]);
-    char **writed = malloc(sizeof(char *) * K);
-    int x = 0;
-    int y = 1;
+//     char *aux = vertex_get_id(g->vertices[parent[0]]);
+//     char **writed = malloc(sizeof(char *) * K);
+//     int x = 0;
+//     int y = 1;
 
-    for (int i = 0; i < K; i++)
-    {
-        for (int j = 0; j < g->vertices_qtt; j++){
-            if (strcmp(aux, vertex_get_id(g->vertices[parent[j]])) == 0)
-            {
-                fprintf(output, "%s,", vertex_get_id(g->vertices[j]));
-            }
-        }
+//     for (int i = 0; i < K; i++)
+//     {
+//         for (int j = 0; j < g->vertices_qtt; j++){
+//             if (strcmp(aux, vertex_get_id(g->vertices[parent[j]])) == 0)
+//             {
+//                 fprintf(output, "%s,", vertex_get_id(g->vertices[j]));
+//             }
+//         }
 
-        for (int j = 0; j < g->vertices_qtt; j++){
-            if (strcmp(aux, vertex_get_id(g->vertices[parent[j]])) != 0)
-            {
-                for (int t = 0; t < x; t++)
-                {
-                    if (strcmp(writed[t], vertex_get_id(g->vertices[j])) == 0)
-                    {
-                        y = 0;
-                        break;
-                    }
-                }
+//         for (int j = 0; j < g->vertices_qtt; j++){
+//             if (strcmp(aux, vertex_get_id(g->vertices[parent[j]])) != 0)
+//             {
+//                 for (int t = 0; t < x; t++)
+//                 {
+//                     if (strcmp(writed[t], vertex_get_id(g->vertices[j])) == 0)
+//                     {
+//                         y = 0;
+//                         break;
+//                     }
+//                 }
 
-                if (y)
-                {
-                    writed[x] = strdup(aux);
-                    x++;
-                    aux = vertex_get_id(g->vertices[parent[j]]);
-                    break;
-                }
+//                 if (y)
+//                 {
+//                     writed[x] = strdup(aux);
+//                     x++;
+//                     aux = vertex_get_id(g->vertices[parent[j]]);
+//                     break;
+//                 }
 
-                y = 1;
-            }
-        }
-    fprintf(output, "\n");
-    }
+//                 y = 1;
+//             }
+//         }
+//     fprintf(output, "\n");
+//     }
 
-    for (int i = 0; i < K; i++)
-    {
-        free(writed[i]);
-    }
-    free(writed);
-    fclose(output);
-}
-
-int _union(int p, int q, int *parent, int *sz){
-    int i = _find(p, parent);
-    int j = _find(q, parent);
-    if(i == j){
-        return 1;  
-    }else if(sz[i] < sz[j]){
-        parent[i] = j; sz[j] += sz[i]; 
-    }else{
-        parent[j] = i; sz[i] += sz[j];
-    }
-    return 0;
-}
-
-int _find(int i, int *parent){
-    while (i != parent[i]){
-        parent[i] = parent[parent[i]];
-        i = parent[i];
-    }
-    return i;
-}
-
+//     for (int i = 0; i < K; i++)
+//     {
+//         free(writed[i]);
+//     }
+//     free(writed);
+//     fclose(output);
+// }

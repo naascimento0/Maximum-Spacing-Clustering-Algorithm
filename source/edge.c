@@ -1,6 +1,6 @@
 #include "../headers/edge.h"
 
-struct edge {
+struct edge{
     double weight;
     Vertex *src;
     Vertex *dest;

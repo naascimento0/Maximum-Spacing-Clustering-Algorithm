@@ -1,6 +1,6 @@
-#if !defined(SET)
-#define SET
+#ifndef _SET_H
+#define _SET_H
 
 
 
-#endif // SET
+#endif 
