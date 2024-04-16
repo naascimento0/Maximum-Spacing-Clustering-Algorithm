@@ -63,60 +63,34 @@ void graph_msca(Graph *g, int K, char *output_file_path){
         }
     }
 
-    //graph_msca_output(g, K, output_file_path, ds);
+    graph_msca_output(g, K, output_file_path, ds);
     destroy_disjoint_set(ds);
 }
 
-// void graph_msca_output(Graph *g, int K, char *output_file_path, DisjointSet *ds){
-//     // output incompleto
-//     FILE *output = fopen(output_file_path, "w+");
-//     if(!output)
-//         exit(printf("ERROR: File %s did not open", output_file_path));
-    
-//     char *aux = vertex_get_id(g->vertices[parent[0]]);
-//     char **writed = malloc(sizeof(char *) * K);
-//     int x = 0;
-//     int y = 1;
+ void graph_msca_output(Graph *g, int K, char *output_file_path, DisjointSet *ds){
+     FILE *output = fopen(output_file_path, "w+");
+     if(!output)
+         exit(printf("ERROR: File %s did not open", output_file_path));
 
-//     for (int i = 0; i < K; i++)
-//     {
-//         for (int j = 0; j < g->vertices_qtt; j++){
-//             if (strcmp(aux, vertex_get_id(g->vertices[parent[j]])) == 0)
-//             {
-//                 fprintf(output, "%s,", vertex_get_id(g->vertices[j]));
-//             }
-//         }
+     Queue *q = queue_construct();
 
-//         for (int j = 0; j < g->vertices_qtt; j++){
-//             if (strcmp(aux, vertex_get_id(g->vertices[parent[j]])) != 0)
-//             {
-//                 for (int t = 0; t < x; t++)
-//                 {
-//                     if (strcmp(writed[t], vertex_get_id(g->vertices[j])) == 0)
-//                     {
-//                         y = 0;
-//                         break;
-//                     }
-//                 }
+     for(int i = 0; i < K; i++){
+    	 char *aux = vertex_get_id(g->vertices[_find(ds, i)]);  // get the first vertex of the k-set
+    	 queue_enqueue(q, aux);
 
-//                 if (y)
-//                 {
-//                     writed[x] = strdup(aux);
-//                     x++;
-//                     aux = vertex_get_id(g->vertices[parent[j]]);
-//                     break;
-//                 }
+    	 for(int j = i + 1; j < g->vertices_qtt; j++){
+    		 if (strcmp(aux, vertex_get_id(g->vertices[_find(ds, j)])) == 0){
+    			 queue_enqueue(q, vertex_get_id(g->vertices[j]));   // enqueue the vertices of the k-set
+    		 }
+    	 }
 
-//                 y = 1;
-//             }
-//         }
-//     fprintf(output, "\n");
-//     }
+    	 while(!queue_empty(q)){
+    		 char *display = queue_dequeue(q);
+    		 fprintf(output, "%s,", display);   // display the k-set of vertices
+    	 }
+    	 fprintf(output, "\n");
+     }
 
-//     for (int i = 0; i < K; i++)
-//     {
-//         free(writed[i]);
-//     }
-//     free(writed);
-//     fclose(output);
-// }
+     queue_destroy(q);
+     fclose(output);
+ }

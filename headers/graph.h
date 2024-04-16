@@ -4,6 +4,7 @@
 #include "vertex.h"
 #include "edge.h"
 #include "disjointset.h"
+#include "data_structures/queue.h"
 
 typedef struct graph Graph;
 
