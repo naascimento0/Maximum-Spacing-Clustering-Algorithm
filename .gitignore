@@ -17,3 +17,4 @@ objects/disjointset.o
 objects/list.o
 objects/node.o
 objects/queue.o
+objects/groups.o

@@ -78,5 +78,16 @@ int list_find(List *l, data_type data){
     return 0;
 }
 
+data_type list_get(List *l, int i){
+    if(i >= l->size)
+        exit(printf("Error: index out of bounds!\n"));
+
+    Node *aux = l->head;
+    for(int j = 0; j < i; j++)
+        aux = aux->next;
+
+    return aux->value;
+}
+
 
 

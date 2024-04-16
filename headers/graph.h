@@ -5,6 +5,7 @@
 #include "edge.h"
 #include "disjointset.h"
 #include "data_structures/queue.h"
+#include "groups.h"
 
 typedef struct graph Graph;
 

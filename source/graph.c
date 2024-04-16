@@ -63,7 +63,12 @@ void graph_msca(Graph *g, int K, char *output_file_path){
         }
     }
 
-    graph_msca_output(g, K, output_file_path, ds);
+    Groups *groups = groups_create(K);
+    groups_msca(groups, g->vertices, g->vertices_qtt, ds);
+    groups_output(groups, output_file_path);
+    groups_destroy(groups);
+
+    //graph_msca_output(g, K, output_file_path, ds);
     destroy_disjoint_set(ds);
 }
 
