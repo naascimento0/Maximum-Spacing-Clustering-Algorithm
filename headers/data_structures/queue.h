@@ -16,6 +16,8 @@ data_type queue_dequeue(Queue *queue);
 
 int queue_empty(Queue *queue);
 
+int queue_size(Queue *queue);
+
 void queue_destroy(Queue *queue);
 
 #endif

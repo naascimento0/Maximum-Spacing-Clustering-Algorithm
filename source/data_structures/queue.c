@@ -22,6 +22,10 @@ int queue_empty(Queue *queue){
     return queue->list->head == NULL;
 }
 
+int queue_size(Queue *queue){
+    return queue->list->size;
+}
+
 void queue_destroy(Queue *queue){
     list_destroy(queue->list);
     free(queue);
