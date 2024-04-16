@@ -97,4 +97,6 @@ data_type list_pop_back(List *l);
  */
 void list_destroy(List *l);
 
+int list_find(List *l, data_type data);
+
 #endif

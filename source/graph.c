@@ -73,12 +73,13 @@ void graph_msca_output(Graph *g, int K, char *output_file_path, DisjointSet *ds)
          exit(printf("ERROR: File %s did not open", output_file_path));
 
     Queue *q = queue_construct();
+    char *aux = vertex_get_id(g->vertices[_find(ds, 0)]);  // get the first vertex of the k-set
+
+    Queue *writed = queue_construct();
+    queue_enqueue(writed, aux);
 
     for(int i = 0; i < K; i++){
-    	char *aux = vertex_get_id(g->vertices[_find(ds, i)]);  // get the first vertex of the k-set
-    	queue_enqueue(q, aux);
-
-    	for(int j = i + 1; j < g->vertices_qtt; j++){
+    	for(int j = 0; j < g->vertices_qtt; j++){
     		if (strcmp(aux, vertex_get_id(g->vertices[_find(ds, j)])) == 0)
     			queue_enqueue(q, vertex_get_id(g->vertices[j]));   // enqueue the vertices of the k-set
         } 
@@ -92,6 +93,14 @@ void graph_msca_output(Graph *g, int K, char *output_file_path, DisjointSet *ds)
     		fprintf(output, "%s,", display);   // display the k-set of vertices
     	}
     	fprintf(output, "\n");
+
+        for(int j = 0; j < g->vertices_qtt; j++){
+    		if (strcmp(aux, vertex_get_id(g->vertices[_find(ds, j)])) != 0 && !queue_find(writed, vertex_get_id(g->vertices[_find(ds, j)]))){
+                queue_enqueue(writed, aux);   // enqueue the vertices of the k-set
+                aux = vertex_get_id(g->vertices[_find(ds, j)]);
+                break;
+            }
+        }
     }
 
     queue_destroy(q);

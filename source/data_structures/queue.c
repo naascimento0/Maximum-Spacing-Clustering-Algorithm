@@ -31,6 +31,10 @@ void queue_destroy(Queue *queue){
     free(queue);
 }
 
+int queue_find(Queue *queue, data_type value){
+    return list_find(queue->list, value);
+}
+
 
 
 

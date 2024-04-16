@@ -66,5 +66,17 @@ data_type list_pop_front(List *l){
     return value;
 }
 
+int list_find(List *l, data_type data){
+    Node *aux = l->head;
+    int i = 0;
+    while(aux != NULL){
+        if(aux->value == data)
+            return 1;
+        aux = aux->next;
+        i++;
+    }
+    return 0;
+}
+
 
 

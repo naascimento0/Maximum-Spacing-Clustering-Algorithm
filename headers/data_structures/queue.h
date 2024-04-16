@@ -20,4 +20,6 @@ int queue_size(Queue *queue);
 
 void queue_destroy(Queue *queue);
 
+int queue_find(Queue *queue, data_type value);
+
 #endif

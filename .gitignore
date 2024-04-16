@@ -13,3 +13,7 @@ objects/vertex.o
 trab1
 output.txt
 .vscode/
+objects/disjointset.o
+objects/list.o
+objects/node.o
+objects/queue.o
