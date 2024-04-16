@@ -104,5 +104,6 @@ void graph_msca_output(Graph *g, int K, char *output_file_path, DisjointSet *ds)
     }
 
     queue_destroy(q);
+    queue_destroy(writed);
     fclose(output);
  }
