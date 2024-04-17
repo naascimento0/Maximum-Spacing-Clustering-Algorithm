@@ -9,9 +9,9 @@ Groups *groups_create(int k){
     Groups *gps = malloc(sizeof(Groups));
     gps->groups = malloc(sizeof(List*) * k);
     gps->k = k;
-    for(int i = 0; i < k; i++){
+    for(int i = 0; i < k; i++)
         gps->groups[i] = list_construct();
-    }
+
     return gps;
 }
 
@@ -21,15 +21,17 @@ void groups_msca(Groups *gps, Vertex **vertices, int vertices_qtt, DisjointSet *
     Queue *writed = queue_construct();
     queue_enqueue(writed, aux);
 
+    // push back the vertices of the k-set to be able to output them
     for(int i = 0; i < gps->k; i++){
     	for(int j = 0; j < vertices_qtt; j++){
     		if (strcmp(aux, vertex_get_id(vertices[_find(ds, j)])) == 0)
-                list_push_back(gps->groups[i], vertex_get_id(vertices[j]));   // enqueue the vertices of the k-set
+                list_push_back(gps->groups[i], vertex_get_id(vertices[j]));
         } 
 
+    	// stores the next k-set at the aux variable (specifically the first one vertex of the next k-set)
         for(int j = 0; j < vertices_qtt; j++){
     		if (strcmp(aux, vertex_get_id(vertices[_find(ds, j)])) != 0 && !queue_find(writed, vertex_get_id(vertices[_find(ds, j)]))){
-                queue_enqueue(writed, aux);   // enqueue the vertices of the k-set
+                queue_enqueue(writed, aux);
                 aux = vertex_get_id(vertices[_find(ds, j)]);
                 break;
             }
@@ -45,13 +47,12 @@ void groups_output(Groups *gps, char *output_file_path){
          exit(printf("ERROR: File %s did not open", output_file_path));
 
     for(int k = 0; k < gps->k; k++){
-        for (int i = 0; i < list_size(gps->groups[k]); i++)
-        {
+        for (int i = 0; i < list_size(gps->groups[k]); i++){
             char *aux = list_get(gps->groups[k], i);
-            if (i == list_size(gps->groups[k]) - 1)
-                fprintf(output, "%s", aux);
-            
-            fprintf(output, "%s,", aux);
+            if(i >= list_size(gps->groups[k]) - 1)
+            	fprintf(output, "%s", aux);
+            else
+            	fprintf(output, "%s,", aux);
         }
 
         fprintf(output, "\n");

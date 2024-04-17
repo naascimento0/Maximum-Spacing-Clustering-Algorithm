@@ -1,4 +1,5 @@
 #include "../headers/disjointset.h"
+
 struct disjointset{
     int *parent; 
     int *size;   

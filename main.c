@@ -4,8 +4,10 @@
 #include <time.h>	
 #include "headers/graph.h"
 
-// K verification needed
 int main(int argc, char **argv){
+	if(argc < 4)
+		exit(printf("ERROR: Missing arguments!\n"));
+
 	char* input_file_path = argv[1];
 	int k = atoi(argv[2]);
 	char* output_file_path = argv[3];
@@ -14,10 +16,10 @@ int main(int argc, char **argv){
 	if(!input)
 		exit(printf("ERROR: File %s did not open", input_file_path));
 
-	clock_t start = clock ();
+	clock_t start = clock();
 	Graph *graph = graph_create(input);
 	graph_msca(graph, k, output_file_path);
-	clock_t end = clock ();
+	clock_t end = clock();
 	graph_destroy(graph);
 
 	fclose(input);

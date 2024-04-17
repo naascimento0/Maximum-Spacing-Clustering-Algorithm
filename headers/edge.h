@@ -15,8 +15,6 @@ Vertex *edge_dest(Edge *e);
 
 int edge_weight_compare(const void *a, const void *b);
 
-void edge_debug(Edge *e, int dimension);
-
 void edge_destroy(Edge *e);
 
 #endif 

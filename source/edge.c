@@ -37,13 +37,6 @@ int edge_weight_compare(const void *a, const void *b) {
         return 0;
 }
 
-void edge_debug(Edge *e, int dimension){
-    vertex_debug(e->src, dimension);
-    vertex_debug(e->dest, dimension);
-    printf("Weight: %f\n", e->weight);
-    printf("\n");
-}
-
 void edge_destroy(Edge *e){
     free(e);
 }

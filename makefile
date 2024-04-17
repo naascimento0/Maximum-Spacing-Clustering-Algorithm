@@ -8,11 +8,11 @@ compile:
 	gcc -o trab1 objects/*.o -lm
 
 run:
-	./trab1 in-exemplos/6.txt 3 saida.txt
+	./trab1 in-exemplos/3.txt 5 saida.txt
 
 valgrind:
-	valgrind ./trab1 in-exemplos/6.txt 3 saida.txt
+	valgrind ./trab1 in-exemplos/3.txt 5 saida.txt
 
 clean:
-	rm trab1 objects/* 
+	rm -r trab1 objects
 

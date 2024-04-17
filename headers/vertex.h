@@ -22,8 +22,6 @@ double vertex_calculate_distance(Vertex *v_a, Vertex *v_b, int dimension);
 
 int vertex_id_compare(const void *a, const void *b);
 
-void vertex_debug(Vertex *v, int dimension);
-
 void vertex_destroy(Vertex *v);
 
 #endif

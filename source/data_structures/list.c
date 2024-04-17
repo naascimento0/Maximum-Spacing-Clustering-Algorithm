@@ -35,14 +35,11 @@ void list_push_back(List *l, data_type data){
 }
 
 void list_destroy(List *l){
-
     while(l->head != NULL){
-
         Node *aux = l->head;
         l->head = l->head->next;
         node_destroy(aux);
     }
-
     free(l);
 }
 

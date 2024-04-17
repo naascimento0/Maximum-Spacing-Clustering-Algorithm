@@ -62,12 +62,6 @@ int vertex_id_compare(const void *a, const void *b){
     return strcmp((*aa)->id, (*bb)->id);
 }
 
-void vertex_debug(Vertex *v, int dimension){
-    printf("id: %s | COORDINATES: ", v->id);
-    for (int i = 0; i < dimension; i++) printf("%lf ", v->coordinates[i]);
-    printf("\n");
-}
-
 void vertex_destroy(Vertex *v){
     free(v->id);
     free(v->coordinates);

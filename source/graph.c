@@ -32,20 +32,11 @@ Graph* graph_create(FILE *input) {
     return g;
 }
 
-void graph_destroy(Graph *g) {
-    for(int i = 0; i < g->vertices_qtt; i++)
-        vertex_destroy(g->vertices[i]);
-    
-    for(int i = 0; i < g->edges_qtt; i++)
-        edge_destroy(g->edges[i]);
-    
-    free(g->vertices);
-    free(g->edges);
-    free(g);
-}
-
 //maximum spacing clustering algorithm
 void graph_msca(Graph *g, int K, char *output_file_path){
+	if(K > g->vertices_qtt)
+		exit(printf("ERROR: K is greater than the amount of vertices!\n"));
+
     DisjointSet *ds = create_disjoint_set(g->vertices_qtt);
     // Kruskal modified to generate a MSCA
     int max_edges = g->vertices_qtt - K;
@@ -56,7 +47,7 @@ void graph_msca(Graph *g, int K, char *output_file_path){
         
         Vertex **p = bsearch(&src, g->vertices, g->vertices_qtt, sizeof(Vertex*), vertex_id_compare);
         Vertex **q = bsearch(&dest, g->vertices, g->vertices_qtt, sizeof(Vertex*), vertex_id_compare);
-        if(p != NULL && q != NULL){     // TO DO: uma olhada
+        if(p != NULL && q != NULL){    // memory addresses
             index_src = p - g->vertices;    // pointer arithmetic
             index_dest = q - g->vertices;   // pointer arithmetic
             max_edges += _union(ds, index_src, index_dest);
@@ -68,47 +59,18 @@ void graph_msca(Graph *g, int K, char *output_file_path){
     groups_output(groups, output_file_path);
     groups_destroy(groups);
 
-    //graph_msca_output(g, K, output_file_path, ds);
     destroy_disjoint_set(ds);
 }
 
-void graph_msca_output(Graph *g, int K, char *output_file_path, DisjointSet *ds){
-    FILE *output = fopen(output_file_path, "w+");
-    if(!output)
-         exit(printf("ERROR: File %s did not open", output_file_path));
+void graph_destroy(Graph *g) {
+    for(int i = 0; i < g->vertices_qtt; i++)
+        vertex_destroy(g->vertices[i]);
 
-    Queue *q = queue_construct();
-    char *aux = vertex_get_id(g->vertices[_find(ds, 0)]);  // get the first vertex of the k-set
+    for(int i = 0; i < g->edges_qtt; i++)
+        edge_destroy(g->edges[i]);
 
-    Queue *writed = queue_construct();
-    queue_enqueue(writed, aux);
+    free(g->vertices);
+    free(g->edges);
+    free(g);
+}
 
-    for(int i = 0; i < K; i++){
-    	for(int j = 0; j < g->vertices_qtt; j++){
-    		if (strcmp(aux, vertex_get_id(g->vertices[_find(ds, j)])) == 0)
-    			queue_enqueue(q, vertex_get_id(g->vertices[j]));   // enqueue the vertices of the k-set
-        } 
-
-    	while(!queue_empty(q)){
-            char *display = queue_dequeue(q);
-            if(!queue_size(q)){
-                fprintf(output, "%s", display);
-                break;
-            }
-    		fprintf(output, "%s,", display);   // display the k-set of vertices
-    	}
-    	fprintf(output, "\n");
-
-        for(int j = 0; j < g->vertices_qtt; j++){
-    		if (strcmp(aux, vertex_get_id(g->vertices[_find(ds, j)])) != 0 && !queue_find(writed, vertex_get_id(g->vertices[_find(ds, j)]))){
-                queue_enqueue(writed, aux);   // enqueue the vertices of the k-set
-                aux = vertex_get_id(g->vertices[_find(ds, j)]);
-                break;
-            }
-        }
-    }
-
-    queue_destroy(q);
-    queue_destroy(writed);
-    fclose(output);
- }
